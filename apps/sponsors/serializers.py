@@ -38,6 +38,7 @@ class SponsorDetailSerializer(serializers.ModelSerializer):
             "phone_number",
             "payment_amount",
             "organization",
+            "type",
             "status",
             "created_at",
         ]

@@ -1,7 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 from apps.sponsors.models import Sponsor
 from apps.sponsors.permissions import SponsorPermission
-from apps.sponsors.tasks import send_students_info
 from apps.sponsors.serializers import (
     SponsorSerializer,
     SponsorCreateSerializer,
@@ -15,7 +14,7 @@ from apps.sponsors.serializers import (
 class SponsorViewSet(ModelViewSet):
     queryset = Sponsor.objects.all()
     serializer_class = SponsorSerializer
-    # permission_classes = [SponsorPermission]
+    permission_classes = [SponsorPermission]
 
     # def get_permissions(self):
     #     if self.action == "create":
@@ -32,8 +31,3 @@ class SponsorViewSet(ModelViewSet):
         elif self.action == "retrieve":
             return SponsorDetailSerializer
         return self.serializer_class
-
-    def list(self, request, *args, **kwargs):
-        print("Hello from Sponsor list action!")
-        send_students_info.delay()
-        return super(SponsorViewSet, self).list(request, *args, **kwargs)
