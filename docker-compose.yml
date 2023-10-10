@@ -1,6 +1,6 @@
 services:
   redis:
-    container_name: metsetnat_redis
+    container_name: metsenat_redis
     image: redis:latest
     restart: unless-stopped
     ports:
