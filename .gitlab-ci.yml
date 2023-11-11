@@ -13,9 +13,11 @@ build-job:
   before_script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
     - touch /builds/nomonovjahongirbek/metsenat/.env
+    - ls
   script:
-    - docker build .
+    - docker build -t $IMAGE:web .
     - docker push $IMAGE:web
+    - docker build -t $IMAGE:nginx ./nginx
     - docker push $IMAGE:nginx
   after_script:
     - docker logout
