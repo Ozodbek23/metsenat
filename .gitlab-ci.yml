@@ -13,6 +13,7 @@ build-job:
   before_script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
     - touch /builds/nomonovjahongirbek/metsenat/.env
+    - pip install docker-compose
   script:
     - docker compose build
     - docker push $IMAGE:web
