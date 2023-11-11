@@ -10,11 +10,14 @@ build-job:
   stage: build
   services:
     - docker:dind
+  before_script:
+    - docker login -u $CI_REGISTERY_USER -p $CI_REGISTERY_PASSWORD $CI_REGISTRY
   script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY --password-stdin
     - docker-compose build
     - docker push $IMAGE:web
     - docker push $IMAGE:nginx
+  after_script:
+    - docker logout
 
 deploy-job:
   image: alpine
