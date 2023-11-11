@@ -103,16 +103,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': 'metsenat_dev_db',
-#        'USER': 'metsenat_dev_user',
-#        'PASSWORD': 'metsenat_dev_root',
-#        'HOST': 'localhost',
-#        'PORT': '5432',
-#    }
-#}
 
 
 # Password validation
@@ -166,13 +156,14 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(hours=2),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=env('ACCESS_TOKEN_LIFETIME', cast=int)),
+    "REFRESH_TOKEN_LIFETIME": timedelta(minutes=env('REFRESH_TOKEN_LIFETIME', cast=int)),
 }
+
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Metsenat Project API',
     'DESCRIPTION': 'API endpoints for Metsenat Project',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
-    # 'SCHEMA_PATH_PREFIX': 'api/'
+    'COMPONENT_SPLIT_REQUEST': True
 }

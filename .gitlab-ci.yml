@@ -1,0 +1,24 @@
+stages:
+  - build
+  - deploy
+
+build-job:
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker-compose build
+    - docker push $IMAGE:web
+    - docker push $IMAGE:nginx
+
+deploy-job:
+  image: alpine
+  stage: deploy
+  tags:
+    - deployment
+  script: :
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker-compose -f docker-compose.prod.yml pull
+    - docker-compose -f docker-compose.prog.yml up -d
