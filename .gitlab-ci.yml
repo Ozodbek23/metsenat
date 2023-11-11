@@ -6,17 +6,17 @@ variables:
   IMAGE: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME
 
 build-job:
-  image: docker:latest
+  image: docker:19.03
   stage: build
   services:
-    - docker:dind
+    - docker:19.03-dind
   before_script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
     - touch /builds/nomonovjahongirbek/metsenat/.env
   script:
-    - docker-compose build
-    - docker push $IMAGE:web
-    - docker push $IMAGE:nginx
+    - sudo docker-compose build
+    - sudo docker push $IMAGE:web
+    - sudo docker push $IMAGE:nginx
   after_script:
     - docker logout
 
