@@ -19,6 +19,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   metsenat:
+    image: registry.gitlab.com/nomonovjahongirbek/metsenat/develop:web
     build: ./
     container_name: metsenat_app
     command: python manage.py runserver 0.0.0.0:8000
@@ -32,6 +33,7 @@ services:
       - metsenat-db
 
   metsenat-worker:
+    image: registry.gitlab.com/nomonovjahongirbek/metsenat/develop:web
     build: ./
     container_name: metsenat_worker
     command: celery --app=config worker -l INFO
@@ -44,6 +46,13 @@ services:
     depends_on:
       - metsenat-db
       - redis
+  nginx:
+    image: registry.gitlab.com/nomonovjahongirbek/metsenat/develop:nginx
+    build: ./nginx
+    ports:
+      - 80:80
+    depends_on:
+      - metsenat
 
 volumes:
   postgres_data:
