@@ -7,7 +7,8 @@ services:
       - "127.0.0.1:6379:6379"
     volumes:
       - redis:/data
-
+    networks:
+      - nginx_network
   metsenat-db:
     container_name: metsenat_db
     image: postgres
@@ -17,7 +18,8 @@ services:
       - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
+    networks:
+      - nginx_network
   metsenat:
     image: registry.gitlab.com/nomonovjahongirbek/metsenat/develop:web
     build: ./
@@ -31,7 +33,8 @@ services:
       - .env
     depends_on:
       - metsenat-db
-
+    networks:
+      - nginx_network
   metsenat-worker:
     image: registry.gitlab.com/nomonovjahongirbek/metsenat/develop:web
     build: ./
@@ -46,7 +49,12 @@ services:
     depends_on:
       - metsenat-db
       - redis
-
+    networks:
+      - nginx_network
 volumes:
   postgres_data:
   redis:
+
+networks:
+  nginx_network:
+    external: true
