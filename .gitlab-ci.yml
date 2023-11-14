@@ -6,10 +6,16 @@ variables:
   IMAGE: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME
 
 build-job:
-  image: docker:19.03
   stage: build
+  image:
+    name: docker:stable
   services:
-    - docker:19.03-dind
+    - name: docker:dind
+      alias: thedockerhost
+  variables:
+    DOCKER_HOST: tcp://thedockerhost:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
   before_script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
     - touch .env
