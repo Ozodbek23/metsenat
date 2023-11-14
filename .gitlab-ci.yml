@@ -30,14 +30,6 @@ deploy-job:
   stage: deploy
   tags:
     - deployment
-  script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker-compose -f docker-compose.prod.yml pull
-    - docker-compose -f docker-compose.prog.yml up -d
-
-deploy:
-  image: alpine:latest
-  stage: deploy
   variables:
     PROJECT_WORK_DIR: "/home/ubuntu/projects/metsenat"
   before_script:
