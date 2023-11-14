@@ -12,8 +12,7 @@ build-job:
     - docker:19.03-dind
   before_script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
-    - touch /builds/nomonovjahongirbek/metsenat/.env
-    - ls
+    - touch .env
   script:
     - docker build -t $IMAGE:web .
     - docker push $IMAGE:web
