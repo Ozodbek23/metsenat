@@ -22,8 +22,6 @@ build-job:
   script:
     - docker build -t $IMAGE:web .
     - docker push $IMAGE:web
-    - docker build -t $IMAGE:nginx ./nginx
-    - docker push $IMAGE:nginx
   after_script:
     - docker logout
 
