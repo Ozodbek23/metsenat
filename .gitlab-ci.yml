@@ -34,3 +34,18 @@ deploy-job:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker-compose -f docker-compose.prod.yml pull
     - docker-compose -f docker-compose.prog.yml up -d
+
+deploy:
+  image: alpine:latest
+  stage: deploy
+  variables:
+    PROJECT_WORK_DIR: "/home/ubuntu/projects/metsenat"
+  before_script:
+    - chmod og= $AWS_SECRET_KEY
+    - apk update && apk add openssh-client
+    - ssh -i $AWS_SECRET_KEY -o StrictHostKeyChecking=no $AWS_USER@AWS_IP_ADDRESS "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
+  script:
+    - ssh -i $AWS_SECRET_KEY -o StrictHostKeyChecking=no $AWS_USER@AWS_IP_ADDRESS "cd $PROJECT_WORK_DIR; docker compose -f docker-compose.prod.yml pull;"
+    - ssh -i $AWS_SECRET_KEY -o StrictHostKeyChecking=no $AWS_USER@AWS_IP_ADDRESS "cd $PROJECT_WORK_DIR; docker compose -f docker-compose.prod.yml up -d;"
+#  only:
+#    - main
