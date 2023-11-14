@@ -30,6 +30,8 @@ services:
       - .env
     depends_on:
       - metsenat-db
+    networks:
+      - nginx_network
 
   metsenat-worker:
     image: registry.gitlab.com/nomonovjahongirbek/metsenat/develop:web
@@ -48,3 +50,7 @@ services:
 volumes:
   postgres_data:
   redis:
+
+networks:
+  nginx_network:
+    external: true
