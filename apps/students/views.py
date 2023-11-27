@@ -8,6 +8,7 @@ from apps.students.serializers import (
     StudentSponsorSerializer,
     StudentSponsorUpdateSerializer
 )
+
 from rest_framework.mixins import (
     CreateModelMixin,
     UpdateModelMixin,
@@ -36,6 +37,7 @@ class StudentSponsorViewSet(
 ):
     queryset = StudentSponsor.objects.all()
     serializer_class = StudentSponsorSerializer
+
 
     def get_serializer_class(self):
         if self.action in ("update", "partial_update"):

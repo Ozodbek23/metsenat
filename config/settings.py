@@ -35,7 +35,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
 
 
 # Application definition
@@ -50,7 +50,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'drf_spectacular',
     'rest_framework',
-    'rest_framework_simplejwt',
+    'rest_framework_simplejwt'
 ]
 PROJECT_APPS = [
     'apps.core',
@@ -99,7 +99,7 @@ DATABASES = {
         'NAME': env('POSTGRES_DB'),
         'USER': env('POSTGRES_USER'),
         'PASSWORD': env('POSTGRES_PASSWORD'),
-        'HOST': 'metsenat-db',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
