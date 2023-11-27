@@ -35,7 +35,11 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
+<<<<<<< HEAD
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
+=======
+ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(' ')
+>>>>>>> 0454921ca88ea92f3ad41d71f47c6c03ced50bfe
 
 
 # Application definition
@@ -114,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
+  },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
@@ -129,11 +133,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tashkent'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -156,13 +160,14 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(hours=2),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=env('ACCESS_TOKEN_LIFETIME', cast=int)),
+    "REFRESH_TOKEN_LIFETIME": timedelta(minutes=env('REFRESH_TOKEN_LIFETIME', cast=int)),
 }
+
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Metsenat Project API',
     'DESCRIPTION': 'API endpoints for Metsenat Project',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
-    # 'SCHEMA_PATH_PREFIX': 'api/'
+    'COMPONENT_SPLIT_REQUEST': True
 }

@@ -5,9 +5,14 @@ from rest_framework.exceptions import ValidationError
 
 
 class StudentSerializer(serializers.ModelSerializer):
+    created_at = serializers.SerializerMethodField("get_created_at")
+
     class Meta:
         model = Student
         fields = "__all__"
+
+    def get_created_at(self, obj):
+        return obj.created_at.strftime("%Y-%m-%d %H:%M")
 
 
 class StudentListSerializer(serializers.ModelSerializer):
@@ -41,13 +46,15 @@ class StudentUpdateSerializer(serializers.ModelSerializer):
 
 
 class NestedStudentSponsorSerializer(serializers.ModelSerializer):
-    sponsor = serializers.CharField(source="sponsor.full_name", read_only=True)
+    sponsor_id = serializers.CharField(source="sponsor.id", read_only=True)
+    sponsor_name = serializers.CharField(source="sponsor.full_name", read_only=True)
 
     class Meta:
         model = StudentSponsor
         fields = [
             "id",
-            "sponsor",
+            "sponsor_id",
+            "sponsor_name",
             "allocated_amount"
         ]
 
@@ -104,13 +111,19 @@ class StudentSponsorUpdateSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         stud_alloc_amount = get_student_allocated_amount(self.instance.student)
-        if stud_alloc_amount + attrs.get("allocated_amount") > self.instance.student.contract_amount:
+        if stud_alloc_amount + attrs.get(
+                "allocated_amount",
+                self.instance.allocated_amount
+        ) > self.instance.student.contract_amount:
             raise ValidationError(
                 "Total allocated amount must be lower or equal to contract amount of the student!"
             )
 
         spon_alloc_amount = get_sponsor_allocated_amount(attrs.get("sponsor"))
-        if spon_alloc_amount + attrs.get("allocated_amount") > attrs.get("sponsor").payment_amount:
+        if spon_alloc_amount + attrs.get(
+                "allocated_amount",
+                self.instance.allocated_amount
+        ) > attrs.get("sponsor").payment_amount:
             raise ValidationError(
                 "Not enough money to be the student's sponsor!"
             )
