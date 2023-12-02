@@ -35,11 +35,8 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-<<<<<<< HEAD
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
-=======
-ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(' ')
->>>>>>> 0454921ca88ea92f3ad41d71f47c6c03ced50bfe
+
 
 
 # Application definition
